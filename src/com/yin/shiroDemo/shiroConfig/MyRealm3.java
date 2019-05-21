@@ -10,10 +10,10 @@ import org.apache.shiro.realm.Realm;
  * @CreateTime: 2019-05-21 15:08
  * @Description: 单Realm配置
  */
-public class MyRealm2 implements Realm {
+public class MyRealm3 implements Realm {
     @Override
     public String getName() {
-        return "myRealm2";
+        return "myRealm1";
     }
 
     @Override
@@ -29,7 +29,7 @@ public class MyRealm2 implements Realm {
         String username = (String)token.getPrincipal();
         //得到密码
         String password = new String((char[])token.getCredentials());
-        if(!"wang".equals(username)){
+        if(!"zhang".equals(username)){
             //用户名错误
             throw new UnknownAccountException();
         }
@@ -38,6 +38,6 @@ public class MyRealm2 implements Realm {
             throw new IncorrectCredentialsException();
         }
         //如果身份认证验证成功，返回一个 AuthenticationInfo 实现；
-        return new SimpleAuthenticationInfo(username,password,getName());
+        return new SimpleAuthenticationInfo(" zhang@163.com",password,getName());
     }
 }
