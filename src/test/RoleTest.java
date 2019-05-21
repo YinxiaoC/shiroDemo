@@ -1,5 +1,6 @@
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.config.IniSecurityManagerFactory;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.subject.Subject;
@@ -47,6 +48,17 @@ public class RoleTest {
         Assert.assertEquals(false, result[2]);
     }
 
+    //Shiro 提供的 checkRole/checkRoles 和 hasRole/hasAllRoles 不同的地方是它在判断为假的情
+    //况下会抛出 UnauthorizedException 异常。
+    @Test(expected = UnauthorizedException.class)
+    public void testCheckRole() {
+        Subject subject = SecurityUtils.getSubject();
+        login("classpath:shiro-role.ini", "zhang", "123");
+        //断言拥有角色：role1
+        subject.checkRole("role1");
+        //断言拥有角色：role1 and role3 失败抛出异常
+        subject.checkRoles("role1", "role3");
+    }
 
 
 }
