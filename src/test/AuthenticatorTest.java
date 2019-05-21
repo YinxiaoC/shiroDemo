@@ -30,7 +30,6 @@ public class AuthenticatorTest {
         //3、得到 Subject 及创建用户名/密码身份验证 Token（即用户身份/凭证）
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken("zhang", "123");
-
         subject.login(token);
     }
 
