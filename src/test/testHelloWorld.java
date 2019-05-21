@@ -92,4 +92,29 @@ public class testHelloWorld {
         //退出
         subject.logout();
     }
+
+    @Test
+    public void testHelloWorld4() {
+        //获取 SecurityManager 工厂，此处使用 Ini 配置文件初始化 SecurityManager
+        Factory<SecurityManager> factory =
+                new IniSecurityManagerFactory("classpath:shiro-jdbc-realm.ini");
+        //得到 SecurityManager 实例 并绑定给 SecurityUtils（全局设置，设置一次即可）
+        SecurityManager securityManager = factory.getInstance();
+        SecurityUtils.setSecurityManager(securityManager);
+        //得到 Subject 及创建用户名/密码身份验证 Token（即用户身份/凭证）
+        Subject subject = SecurityUtils.getSubject();
+        UsernamePasswordToken token = new UsernamePasswordToken("zhang","123");
+
+        try{
+            //登录（验证身份）
+            subject.login(token);
+        }catch (AuthenticationException e){
+            //身份验证失败
+            System.out.println("错误");
+        }
+        //断言 断言用户已经登陆
+        Assert.assertEquals(true,subject.isAuthenticated());
+        //退出
+        subject.logout();
+    }
 }
